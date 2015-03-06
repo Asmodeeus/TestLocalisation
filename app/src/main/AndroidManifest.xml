@@ -2,10 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="as.swarmapp.testlocalisation" >
 
-    <meta-data android:name="com.google.android.gms.version"
-        android:value="@integer/google_play_services_version" />
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -22,8 +20,14 @@
             </intent-filter>
         </activity>
 
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".TestLoc"
+            android:label="@string/title_activity_test_loc" >
+        </activity>
     </application>
 
 </manifest>

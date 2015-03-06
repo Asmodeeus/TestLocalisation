@@ -1,31 +1,18 @@
 package as.swarmapp.testlocalisation;
 
-import android.location.Location;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
-
-import java.util.ArrayList;
 
 
-public class ActivitePrincipale extends ActionBarActivity implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class ActivitePrincipale extends ActionBarActivity {
 
-    public GoogleApiClient monClient;
-    public ArrayList<Location> mesPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activite_principale);
-        buildGoogleApiClient();
     }
 
 
@@ -49,42 +36,5 @@ public class ActivitePrincipale extends ActionBarActivity implements
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    protected synchronized void buildGoogleApiClient() {
-        monClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-
-        Location dernièrePos = LocationServices.FusedLocationApi.getLastLocation(
-                monClient);
-        if (dernièrePos != null) {
-            mesPos.add(dernièrePos);
-            Log.w("dernière position : ", locationToString(dernièrePos));
-            ((TextView) findViewById(R.id.Ttest)).setText(locationToString(dernièrePos));
-        }else{
-            Log.w("Test", "Aucune position disponible");
-            ((TextView) findViewById(R.id.Ttest)).setText("Aucune position disponible");
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
-
-    public static String locationToString(Location l){
-        return String.valueOf(l.getLatitude()) + " | " + String.valueOf(l.getLongitude());
     }
 }
