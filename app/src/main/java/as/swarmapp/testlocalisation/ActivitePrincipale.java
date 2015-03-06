@@ -6,22 +6,26 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+
+import java.util.ArrayList;
 
 
 public class ActivitePrincipale extends ActionBarActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public GoogleApiClient monClient;
-    public Location maPos;
+    public ArrayList<Location> mesPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activite_principale);
+        buildGoogleApiClient();
     }
 
 
@@ -57,11 +61,16 @@ public class ActivitePrincipale extends ActionBarActivity implements
 
     @Override
     public void onConnected(Bundle bundle) {
-        maPos = LocationServices.FusedLocationApi.getLastLocation(
+
+        Location dernièrePos = LocationServices.FusedLocationApi.getLastLocation(
                 monClient);
-        if (maPos != null) {
-            Log.w("latitude", String.valueOf(maPos.getLatitude()));
-            Log.w("longitude", String.valueOf(maPos.getLongitude()));
+        if (dernièrePos != null) {
+            mesPos.add(dernièrePos);
+            Log.w("dernière position : ", locationToString(dernièrePos));
+            ((TextView) findViewById(R.id.Ttest)).setText(locationToString(dernièrePos));
+        }else{
+            Log.w("Test", "Aucune position disponible");
+            ((TextView) findViewById(R.id.Ttest)).setText("Aucune position disponible");
         }
     }
 
@@ -73,5 +82,9 @@ public class ActivitePrincipale extends ActionBarActivity implements
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
+    }
+
+    public static String locationToString(Location l){
+        return String.valueOf(l.getLatitude()) + " | " + String.valueOf(l.getLongitude());
     }
 }
