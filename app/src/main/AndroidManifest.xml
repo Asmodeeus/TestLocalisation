@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="as.swarmapp.testlocalisation" >
 
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -27,6 +27,14 @@
         <activity
             android:name=".TestLoc"
             android:label="@string/title_activity_test_loc" >
+        </activity>
+        <activity
+            android:name=".TestHTTP"
+            android:label="@string/title_activity_test_http" >
+        </activity>
+        <activity
+            android:name=".TestLesDeux"
+            android:label="@string/title_activity_test_les_deux" >
         </activity>
     </application>
 
