@@ -35,6 +35,12 @@ public class ActivitePrincipale extends ActionBarActivity {
                 startActivity(new Intent(ActivitePrincipale.this, TestLesDeux.class));
             }
         });
+        ((Button) findViewById(R.id.BtestLesDeuxPeriodique)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ActivitePrincipale.this, TestLesDeuxPeriodique.class));
+            }
+        });
     }
 
 

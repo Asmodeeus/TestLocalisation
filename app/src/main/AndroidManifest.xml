@@ -36,6 +36,10 @@
             android:name=".TestLesDeux"
             android:label="@string/title_activity_test_les_deux" >
         </activity>
+        <activity
+            android:name=".TestLesDeuxPeriodique"
+            android:label="@string/title_activity_test_les_deux_periodique" >
+        </activity>
     </application>
 
 </manifest>

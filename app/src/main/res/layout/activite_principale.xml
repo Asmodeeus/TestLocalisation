@@ -29,4 +29,12 @@
         android:id="@+id/BtestLesDeux"
         android:layout_below="@+id/BtestHTTP"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/BtestLesDeuxPeriodique"
+        android:id="@+id/BtestLesDeuxPeriodique"
+        android:layout_below="@+id/BtestLesDeux"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
