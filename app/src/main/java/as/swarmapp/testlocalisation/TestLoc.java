@@ -7,15 +7,23 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 
 public class TestLoc extends ActionBarActivity implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener  {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
+    public static int nbPos = 0;
+    private LocationRequest mLocationRequest = new LocationRequest();
     public GoogleApiClient monClient;
 
     @Override
@@ -59,17 +67,27 @@ public class TestLoc extends ActionBarActivity implements
 
     @Override
     public void onConnected(Bundle bundle) {
+        //*
         Location dernièrePos = LocationServices.FusedLocationApi.getLastLocation(
                 monClient);
         String s;
         if (dernièrePos != null) {
-            s = "dernière position : "+locationToString(dernièrePos);
+            s = String.format("position %d : ",nbPos++) +locationToString(dernièrePos);
 
         }else{
             s = "Aucune position disponible";
         }
         Log.w("onConnected", s);
         ((TextView) findViewById(R.id.Ttest)).setText(s);
+        //*/
+        createLocationRequest();
+        startLocationUpdates();
+    }
+
+    private void startLocationUpdates() {
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                monClient, mLocationRequest, this);
+
     }
 
     @Override
@@ -79,10 +97,37 @@ public class TestLoc extends ActionBarActivity implements
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
+        Toast.makeText(TestLoc.this, "onConnectionFailed", Toast.LENGTH_SHORT).show();
+    }
 
+    protected void createLocationRequest() {
+        mLocationRequest.setInterval(3000);
+        mLocationRequest.setFastestInterval(3000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     public static String locationToString(Location l){
         return String.valueOf(l.getLatitude()) + " | " + String.valueOf(l.getLongitude());
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        if (location != null) {
+            String s = String.format("position %d : ", nbPos++) + locationToString(location) + " update time : "+DateFormat.getTimeInstance().format(new Date());
+            ((TextView) findViewById(R.id.Ttest)).setText(s);
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                monClient, this);
     }
 }
