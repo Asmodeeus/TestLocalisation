@@ -16,6 +16,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -23,6 +24,8 @@ public class TestLoc extends ActionBarActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     public static int nbPos = 0;
+    public static SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); // timestamp selon le format de Haggis
+
     private LocationRequest mLocationRequest = new LocationRequest();
     public GoogleApiClient monClient;
 
@@ -114,7 +117,7 @@ public class TestLoc extends ActionBarActivity implements
     public void onLocationChanged(Location location) {
 
         if (location != null) {
-            String s = String.format("position %d : ", nbPos++) + locationToString(location) + " update time : "+DateFormat.getTimeInstance().format(new Date());
+            String s = String.format("position %d : ", nbPos++) + locationToString(location) + " update time : "+sdf.format(new Date());
             ((TextView) findViewById(R.id.Ttest)).setText(s);
         }
 
