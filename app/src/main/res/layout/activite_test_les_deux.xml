@@ -6,10 +6,13 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="as.swarmapp.testlocalisation.TestLesDeux">
 
-    <WebView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/WVlesDeux"
-        android:layout_centerHorizontal="true" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/TtestLesDeux"
+        android:text="@string/TtestLesDeux"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -85,7 +86,7 @@ public class TestLesDeux extends ActionBarActivity implements GestionHorsUI,
     @Override
     public Object aFaireHorsUI(final Object parametresRequete){
         // parametresRequete est la position sous forme de string formatée
-        String s = "INITIALE";
+        Boolean ok = Boolean.valueOf(false);
         String params = parametresRequete.toString();
         int longueurParams = params.getBytes().length;
         /*
@@ -110,7 +111,7 @@ public class TestLesDeux extends ActionBarActivity implements GestionHorsUI,
 
             try {
                 paramsPOST(urlConnection, params);
-                s = reponseRequete(urlConnection);
+                ok = reponseRequete(urlConnection);
 
             }finally{
                 urlConnection.disconnect();
@@ -118,15 +119,15 @@ public class TestLesDeux extends ActionBarActivity implements GestionHorsUI,
         }catch (Exception e){
             e.printStackTrace();
         }
-        return s;
+        return ok;
     }
 
     @Override
     public void aFaireEnUI(final Object o){
         runOnUiThread(new Runnable() { public void run() {
 
-            ((WebView) findViewById(R.id.WVlesDeux)).loadData(o.toString(), "text/html", null);
-            //((TextView) findViewById(R.id.TtestLesDeux)).setText(o.toString());
+            //((WebView) findViewById(R.id.WVlesDeux)).loadData(o.toString(), "text/html", null);
+            ((TextView) findViewById(R.id.TtestLesDeux)).setText(o.toString());
 
         }});
     }
@@ -154,7 +155,7 @@ public class TestLesDeux extends ActionBarActivity implements GestionHorsUI,
             strPosition = "Aucune position disponible";
         }
 
-        Log.w("dernière position ", strPosition);
+        Log.w("dernière position ", strPosition); //!
         //((TextView) findViewById(R.id.TtestLesDeux)).setText(strPosition);
     }
 
@@ -176,7 +177,7 @@ public class TestLesDeux extends ActionBarActivity implements GestionHorsUI,
         Map<String, String> paramsKV = new HashMap<>(5);
         paramsKV.put(String.format(LISTE_,TOKEN), "249737703537f0de5c007e30f7b009b4");
         paramsKV.put(String.format(LISTE_,TRACKER_ID), "1");
-        paramsKV.put(String.format(LISTE_,DATETIME), sdf.format(new Date()));
+        paramsKV.put(String.format(LISTE_, DATETIME), sdf.format(new Date()));
         paramsKV.put(String.format(LISTE_,LATITUDE), String.valueOf(l.getLatitude()));
         paramsKV.put(String.format(LISTE_,LONGITUDE), String.valueOf(l.getLongitude()));
 
@@ -206,6 +207,9 @@ public class TestLesDeux extends ActionBarActivity implements GestionHorsUI,
         u.setRequestMethod("POST");
         u.setFixedLengthStreamingMode(taille_requete);
         u.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        u.setRequestProperty("User-Agent", "Mozilla");
+        u.setRequestProperty("Accept", "*/*");
+        u.setInstanceFollowRedirects(false);
         u.setDoInput(true);
         u.setDoOutput(true);
         return u;
@@ -221,28 +225,56 @@ public class TestLesDeux extends ActionBarActivity implements GestionHorsUI,
         return u;
     }
 
-    public static String reponseRequete(HttpURLConnection u) throws Exception{
+    public static Boolean reponseRequete(HttpURLConnection u) throws Exception{
         InputStream inDeURLconn;
+        try {
+            inDeURLconn = new BufferedInputStream(u.getInputStream());
+            inDeURLconn.close();
+            return Boolean.TRUE;
 
+        }catch(Exception e){
+            inDeURLconn = new BufferedInputStream(u.getErrorStream());
+            inDeURLconn.close();
+            return Boolean.FALSE;
+        }
+
+        /*
         if (u.getResponseCode() < 400){
             inDeURLconn = new BufferedInputStream(u.getInputStream());
         }else{
             Log.w("code : ", String.valueOf(u.getResponseCode()));
             inDeURLconn = new BufferedInputStream(u.getErrorStream());
+        }//*/
+    }
+
+    /*
+    public static String reponseRequete(HttpURLConnection u) throws Exception{
+        InputStream inDeURLconn;
+        try {
+            inDeURLconn = new BufferedInputStream(u.getInputStream());
+            Log.w("bla", "In");
+
+        }catch(Exception e){
+            e.printStackTrace();
+            inDeURLconn = new BufferedInputStream(u.getErrorStream());
+            Log.w("bla", "Err");
         }
 
-        return streamToString(inDeURLconn);
+        String q = streamToString(inDeURLconn);
+        Log.w("bla", q);
+        return q;
     }
+    //*/
 
     public static String mapToParams(Map<String, String> laMap){
         String s = "";
 
         for (String k:laMap.keySet()) {
             s += String.format(FORMAT_PARAM_,k, laMap.get(k));
-            Log.w("listeToParams", s);
         }
-        if (s.length()-1 >= 0)
-            return s.substring(0,s.length()-1);
+        if (s.length()-1 >= 0) {
+            return s.substring(0, s.length() - 1);
+        }
         else
             return "";
     }

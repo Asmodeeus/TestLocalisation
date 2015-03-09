@@ -11,4 +11,5 @@
     <string name="title_activity_test_les_deux_periodique">TestLesDeuxPeriodique</string>
     <string name="BtestLesDeux">Tester les deux</string>
     <string name="BtestLesDeuxPeriodique">Tester les deux périodiquement</string>
+    <string name="TtestLesDeux">TtestLesDeux</string>
 </resources>
