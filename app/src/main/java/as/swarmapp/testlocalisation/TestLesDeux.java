@@ -237,7 +237,6 @@ public class TestLesDeux extends ActionBarActivity implements GestionHorsUI,
             inDeURLconn.close();
             return Boolean.FALSE;
         }
-
         /*
         if (u.getResponseCode() < 400){
             inDeURLconn = new BufferedInputStream(u.getInputStream());
