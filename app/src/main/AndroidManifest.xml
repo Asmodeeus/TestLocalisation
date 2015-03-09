@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="as.swarmapp.testlocalisation" >
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,6 +18,27 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".TestLoc"
+            android:label="@string/title_activity_test_loc" >
+        </activity>
+        <activity
+            android:name=".TestHTTP"
+            android:label="@string/title_activity_test_http" >
+        </activity>
+        <activity
+            android:name=".TestLesDeux"
+            android:label="@string/title_activity_test_les_deux" >
+        </activity>
+        <activity
+            android:name=".TestLesDeuxPeriodique"
+            android:label="@string/title_activity_test_les_deux_periodique" >
         </activity>
     </application>
 

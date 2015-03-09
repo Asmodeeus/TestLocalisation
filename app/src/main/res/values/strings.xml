@@ -3,4 +3,12 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_test_loc">TestLoc</string>
+    <string name="BtestLoc">Tester la localisation</string>
+    <string name="BtestHTTP">Tester le HTTP</string>
+    <string name="title_activity_test_http">TestHTTP</string>
+    <string name="title_activity_test_les_deux">TestLesDeux</string>
+    <string name="title_activity_test_les_deux_periodique">TestLesDeuxPeriodique</string>
+    <string name="BtestLesDeux">Tester les deux</string>
+    <string name="BtestLesDeuxPeriodique">Tester les deux périodiquement</string>
 </resources>
